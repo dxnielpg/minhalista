@@ -1,4 +1,4 @@
-package com.caju.minhalista.view
+package com.caju.minhalista.ui.theme.view
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,11 +19,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
+import com.caju.minhalista.viewmodel.TaskViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SalvarTarefa(navController: NavController) {
+fun SalvarTarefa(navController: NavController, viewModel: TaskViewModel) {
     val taskTitle = remember { mutableStateOf("") }
+    val taskDescription = remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
@@ -39,29 +41,27 @@ fun SalvarTarefa(navController: NavController) {
             )
         }
     ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp)
-        ) {
-
+        Column(modifier = Modifier.padding(paddingValues)) {
             TextField(
                 value = taskTitle.value,
                 onValueChange = { taskTitle.value = it },
-                label = { Text("Nome da Tarefa") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp)
+                label = { Text("Nome da Tarefa") }
             )
-
+            TextField(
+                value = taskDescription.value,
+                onValueChange = { taskDescription.value = it },
+                label = { Text("Descrição da Tarefa") }
+            )
             Button(
                 onClick = {
-                    navController.navigate("listaTarefas")
+                    // Salvar tarefa no banco de dados
+                    viewModel.addTask(title = taskTitle.value, description = taskDescription.value)
+                    // Voltar para a lista de tarefas
+                    navController.popBackStack()
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = "Salvar")
+                Text("Salvar")
             }
         }
     }

@@ -1,6 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+
+    kotlin("plugin.serialization")
+    id("com.google.devtools.ksp")
+
 }
 
 android {
@@ -69,4 +73,12 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("androidx.compose.material3:material3:1.0.0")
     implementation("androidx.navigation:navigation-compose:2.5.3")
+
+    //Room Database
+    val room_version = "2.6.1"
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
+
 }
