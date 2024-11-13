@@ -25,7 +25,6 @@ import com.caju.minhalista.viewmodel.TaskViewModel
 fun DetalhesTarefa(navController: NavController, taskId: Int, viewModel: TaskViewModel) {
     val task = remember { mutableStateOf<Task?>(null) }
 
-    // Carregar dados da tarefa
     LaunchedEffect(taskId) {
         task.value = viewModel.getTaskById(taskId)
     }
@@ -116,7 +115,7 @@ fun DetalhesTarefa(navController: NavController, taskId: Int, viewModel: TaskVie
                 // Botão de excluir
                 Button(
                     onClick = {
-                        // Ação para excluir a tarefa
+                        //excluir a tarefa
                         viewModel.deleteTask(taskDetails.id)
                         navController.popBackStack() // Volta para a lista de tarefas
                     },

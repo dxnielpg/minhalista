@@ -16,6 +16,7 @@ import com.caju.minhalista.data.local.TaskDatabase
 import com.caju.minhalista.data.repository.TaskRepository
 import com.caju.minhalista.ui.theme.MinhalistaTheme
 import com.caju.minhalista.ui.theme.view.DetalhesTarefa
+import com.caju.minhalista.ui.theme.view.EditarTarefa
 import com.caju.minhalista.ui.theme.view.ListaTarefas
 import com.caju.minhalista.ui.theme.view.SalvarTarefa
 import com.caju.minhalista.viewmodel.TaskViewModel
@@ -55,6 +56,14 @@ class MainActivity : ComponentActivity() {
                     ) { backStackEntry ->
                         val taskId = backStackEntry.arguments?.getInt("taskId") ?: 0
                         DetalhesTarefa(navController, taskId, taskViewModel)
+                    }
+                    // Rota para editar tarefa
+                    composable(
+                        route = "editarTarefa/{taskId}",
+                        arguments = listOf(navArgument("taskId") { type = NavType.IntType })
+                    ) { backStackEntry ->
+                        val taskId = backStackEntry.arguments?.getInt("taskId") ?: 0
+                        EditarTarefa(navController, taskId, taskViewModel)
                     }
                 }
             }

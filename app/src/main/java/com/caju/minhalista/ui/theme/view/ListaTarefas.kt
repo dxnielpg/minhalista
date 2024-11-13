@@ -44,6 +44,7 @@ fun ListaTarefas(navController: NavController, viewModel: TaskViewModel) {
             FloatingActionButton(onClick = { navController.navigate("salvarTarefa") }) {
                 Icon(Icons.Default.Add, contentDescription = "Adicionar Tarefa")
             }
+
         }
     ) { paddingValues ->
         LazyColumn(modifier = Modifier.padding(paddingValues)) {

@@ -1,5 +1,6 @@
 package com.caju.minhalista.ui.theme.view
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,17 +26,13 @@ import com.caju.minhalista.viewmodel.TaskViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditarTarefa(navController: NavController, taskId: Int, viewModel: TaskViewModel) {
-    // Estados para o título e a descrição da tarefa
     val taskTitle = remember { mutableStateOf("") }
     val taskDescription = remember { mutableStateOf("") }
 
-    // Carregar dados da tarefa ao iniciar a tela
     LaunchedEffect(taskId) {
-        val task = viewModel.getTaskById(taskId)  // Pega a tarefa pelo ID
-        task?.let {
-            taskTitle.value = it.title  // Preenche com os dados da tarefa
-            taskDescription.value = it.description
-        }
+        val task = viewModel.getTaskById(taskId) ?: return@LaunchedEffect // Sai se não encontrar a tarefa
+        taskTitle.value = task.title
+        taskDescription.value = task.description
     }
 
     Scaffold(
@@ -65,10 +62,18 @@ fun EditarTarefa(navController: NavController, taskId: Int, viewModel: TaskViewM
             )
             Button(
                 onClick = {
-                    // Atualiza a tarefa no banco de dados usando o taskId
-                    viewModel.editTask(taskId, newTitle = taskTitle.value, newDescription = taskDescription.value)
-                    // Voltar para a lista de tarefas
-                    navController.popBackStack()
+                    try {
+                        // Verifica se os valores estão preenchidos
+                        if (taskTitle.value.isNotEmpty() && taskDescription.value.isNotEmpty()) {
+                            viewModel.editTask(taskId, newTitle = taskTitle.value, newDescription = taskDescription.value)
+                            navController.popBackStack() // Volta para a lista de tarefas
+                        } else {
+                            throw IllegalArgumentException("Título e descrição não podem estar vazios")
+                        }
+                    } catch (e: Exception) {
+                        // Log para capturar o erro
+                        Log.e("EditarTarefa", "Erro ao editar tarefa: ${e.message}")
+                    }
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -77,3 +82,4 @@ fun EditarTarefa(navController: NavController, taskId: Int, viewModel: TaskViewM
         }
     }
 }
+

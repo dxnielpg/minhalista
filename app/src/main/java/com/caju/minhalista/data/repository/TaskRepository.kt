@@ -3,10 +3,9 @@ package com.caju.minhalista.data.repository
 import com.caju.minhalista.data.local.Task
 import com.caju.minhalista.data.local.TaskDao
 
-// TaskRepository.kt
 class TaskRepository(private val taskDao: TaskDao) {
 
-    // Função para atualizar a tarefa no banco de dados
+    //atualizar a tarefa no banco de dados
     suspend fun updateTask(taskId: Int, newTitle: String, newDescription: String) {
         //atualizar a tarefa no banco de dados
         val task = taskDao.getTaskById(taskId) // Buscar a tarefa atual
@@ -17,7 +16,6 @@ class TaskRepository(private val taskDao: TaskDao) {
         }
     }
 
-    // Outros métodos, como buscar tarefas, adicionar, excluir, etc.
     suspend fun getAllTasks(): List<Task> {
         return taskDao.getAllTasks()
     }

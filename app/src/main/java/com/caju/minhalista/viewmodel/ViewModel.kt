@@ -7,7 +7,6 @@ import com.caju.minhalista.data.local.Task
 import com.caju.minhalista.data.repository.TaskRepository
 import kotlinx.coroutines.launch
 
-// TaskViewModel.kt
 class TaskViewModel(private val repository: TaskRepository) : ViewModel() {
 
     val tasks = mutableStateOf<List<Task>>(emptyList())
