@@ -4,6 +4,9 @@ import androidx.room.*
 
 @Dao
 interface TaskDao {
+    @Update
+    suspend fun updateTask(task: Task)
+
     @Insert
     suspend fun insertTask(task: Task)
 
@@ -15,5 +18,8 @@ interface TaskDao {
 
     @Delete
     suspend fun deleteTask(task: Task)
+
+    @Query("DELETE FROM tasks WHERE id = :taskId")
+    suspend fun deleteTaskById(taskId: Int)
 }
 
